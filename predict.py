@@ -1,3 +1,5 @@
+# Goal: Predict whether a cough is COVID-19 positive or negative
+
 import sys
 import skimage
 import tensorflow as tf
@@ -6,10 +8,12 @@ import os
 import librosa
 
 # Settings
-n_mels = 128
-n_fft = 2048
-hop_length = 512
-fmax = 8000
+n_mels = 64 # Number of Mel banks to generate
+n_fft = 1024 # Interval we consider to apply FFT. Measured in # of samples
+hop_length = 441 # Sliding window for FFT. Measured in # of samples
+fmax = 22 # Maximum frequency we want to consider
+sampling_rate = 44100 # 44.1kHz sampling rate
+fmax = 22050
 
 def extract_melspectrogram(audio_path):
     audio, sr = librosa.load(audio_path)
@@ -23,18 +27,19 @@ def resize_melspectrogram(melspectrogram):
 
 if __name__ == '__main__':
     
+    # Get mel-spectrogram from audio file
     audio_path = sys.argv[1]
     melspectrogram = extract_melspectrogram(audio_path)
-    
     melspectrogram = resize_melspectrogram(melspectrogram)
     
+    # Load model
     model = tf.keras.models.load_model('covid_cough_classifier.h5')
-    
+    # Make prediction
     prediction = model.predict(melspectrogram.reshape(1, 128, 128, 1))
     
-    print(prediction)
-     
+    print("Prediction: covid-19 positive = {:.2f}%, covid-19 negative = {:.2f}%".format(prediction[0][1] * 100 , prediction[0][0] * 100))
+    print("Conclusion:")
     if prediction[0][1] > prediction[0][0]:
-        print("Cough is COVID-19 positive")
+        print(" Cough is COVID-19 positive")
     else:
-        print("Cough is COVID-19 negative")
+        print(" Cough is COVID-19 negative")
