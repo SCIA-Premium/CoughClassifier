@@ -1,10 +1,22 @@
-# MLBIO
+<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=bictole.coughdetectml&right_color=red">
 
-Le diagnostique efficace du covid aurait pu être un outil efficace pour limiter la transmission du coronavirus si nos politiques publiques étaient efficaces et avaient implémenté la solution test-trace et isolate. 
+# CoughClassifier [![Profile][title-img]][profile]
 
-Malheureusement les tests covid nécessitent de se déplacer dans des établissements pour faire le test et demandent du temps. 
+[title-img]:https://img.shields.io/badge/-SCIA--PRIME-red
+[profile]:https://github.com/Pypearl
 
-Le but de ce projet est de développe un modèle de classification de son capable de distinguer une toux liée au covid d'une toux bénine à l'aide de l'enregistrement de la toux d'un patient.
+## Authors
+
+[Victor Simonin](https://github.com/Bictole)\
+[Alexandre Lemonnier](https://github.com/Alex-Leme)
+
+---
+
+The effective diagnosis of **COVID** could have been an effective tool for limiting coronavirus transmission if our public policies were effective and had implemented the test-trace-and-isolate solution.
+
+Unfortunately, COVID tests require individuals to go to specific locations for testing and take time.
+
+The goal of this project is to develop a **sound classification** model capable of distinguishing a COVID-related cough from a benign cough using recordings of a patient's cough.
 
 ## Installation
 
@@ -12,22 +24,23 @@ Le but de ce projet est de développe un modèle de classification de son capabl
 pip install -r requirements.txt
 ```
 
-## Utilisation
+## Usage
 
-Pour prédire si une toux est significative d'un cas COVID positive ou négatif à partir d'un fichier audio, il suffit de lancer la commande suivante:
+To predict if a cough is indicative of a positive or negative COVID case from an **audio file**, simply run the following command:
 
 ```python
 python predict.py <audio_path>
 ```
 
-## Observations
+## Observations:
 
-Le modèle de classification `covid_cough_classifier.h5` a été généré dans le notebook `covid_audio_classification.ipynb`. Dans ce notebook, on a utilisé la librairie `librosa` pour extraire les mel-spectrograms des fichiers audio du dataset Coswara-Data.
+The **classification model** covid_cough_classifier.h5 was generated in the `covid_audio_classification.ipynb` notebook. In this notebook, the librosa library was used to extract the mel-spectrograms from the audio files in the Coswara-Data dataset.
 
-On a ensuite utilisé la librairie `keras` pour construire un modèle de classification à couches convolutives pour prédire si une toux est significative d'un cas COVID-19 ou non. Cependant, le modèle n'a pas été entrainé sur un dataset de taille suffisante pour prédire avec une grande précision, et un overfitting est présent.
-Le modèle réussi quand même à prédire avec un taux de 70% de précision si une toux est significative d'un cas COVID-19 ou non sur un dataset de test.
+The keras library was then used to build a convolutional layer classification model to predict if a cough is indicative of a COVID-19 case or not. However, the model was not trained on a dataset of sufficient size to predict with high accuracy, and overfitting is present.
 
-L'overfitting peut être à la fois dû à la non-présence significative d'élément distinctif sur les fichiers audio des toux permettant la prédiction de COVID-19 dans le dataset Coswara-Data, et à la taille du dataset utilisé pour l'entrainement du modèle, qui est de la forme suivante:
+Despite this, the model is still able to predict with 70% accuracy if a cough is indicative of a COVID-19 case or not on a test dataset.
+
+The **overfitting** may be due to the lack of significant distinguishing elements in the audio files of the coughs that would allow for COVID-19 prediction in the Coswara-Data dataset, and the size of the dataset used to train the model, which is in the following form:
 
 - Train data : negative (1089) | positive (495)
 - Validation data : negative (273) | positive (124)
